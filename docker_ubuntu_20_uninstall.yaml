@@ -1,0 +1,9 @@
+- name: Uninstall Docker
+  become: true
+  hosts: 127.0.0.1
+  gather_facts: yes
+  roles:
+    - docker-ubuntu-20-uninstall
+  vars:
+    ansible_host: 127.0.0.1
+    ansible_user: ionut-alexandru

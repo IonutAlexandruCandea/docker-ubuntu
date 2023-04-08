@@ -1,0 +1,39 @@
+---
+- name: Stop and disable Docker service
+  ansible.builtin.systemd:
+    name: docker
+    enabled: no
+    state: stopped
+
+- name: Remove Docker packages
+  ansible.builtin.apt:
+    name: "{{ item }}"
+    state: absent
+  loop:
+    - docker-ce
+    - docker-ce-cli
+    - containerd.io
+
+- name: Remove Docker repository
+  ansible.builtin.apt_repository:
+    repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable"
+    state: absent
+
+- name: Remove Docker GPG key
+  ansible.builtin.apt_key:
+    id: 9DC858229FC7DD38854AE2D88D81803C0EBFCD88
+    state: absent
+
+- name: Remove any leftover Docker files
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: absent
+  loop:
+    - /etc/docker
+    - /var/lib/docker
+
+- name: Uninstall Docker Compose
+  ansible.builtin.pip:
+    name: docker-compose
+    state: absent
+    executable: pip3

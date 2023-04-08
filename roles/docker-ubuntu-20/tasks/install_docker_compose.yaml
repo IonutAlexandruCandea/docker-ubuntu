@@ -1,0 +1,15 @@
+---
+- name: Install Docker Compose
+  ansible.builtin.pip:
+    name: docker-compose
+    state: present
+    executable: pip3
+
+- name: Check Docker Compose version
+  command: docker-compose --version
+  register: docker_compose_version_output
+  changed_when: false
+
+- name: Display Docker Compose version
+  ansible.builtin.debug:
+    msg: "{{ docker_compose_version_output.stdout }}"
