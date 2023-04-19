@@ -1,9 +1,10 @@
-- name: Install Docker
+- name: Uninstall Docker
   become: true
-  hosts: 127.0.0.1
+  # hosts: 127.0.0.1
+  hosts: all
   gather_facts: yes
   roles:
-    - docker-ubuntu-20
+    - docker-ubuntu-20-uninstall
   vars:
     ansible_host: 127.0.0.1
     ansible_user: ionut-alexandru
